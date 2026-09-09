@@ -621,7 +621,7 @@ with button2:
     st.link_button("LinkedIn", "https://www.linkedin.com/in/miikakoivisto98", use_container_width=True)
 
 with button3:
-    english_cv = Path("assets/Koivisto_Miika_Resume_EN.pdf")
+    english_cv = Path("assets/Koivisto_Miika_Resume.pdf")
     if english_cv.exists():
         with english_cv.open("rb") as pdf_file:
             st.download_button(
