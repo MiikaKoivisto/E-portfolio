@@ -609,7 +609,8 @@ with left:
 """, unsafe_allow_html=True)
 
 with right:
-    st.image("assets/Profile.jpeg", width=280)
+    profile_image = Path(__file__).resolve().parent / "assets" / "Profile.jpeg"
+st.image(str(profile_image), width=280)
 
 st.write("")
 
@@ -977,9 +978,6 @@ with col3:
 # CONTACT
 # -------------------------
 
-# -------------------------
-# CONTACT
-# -------------------------
 
 st.markdown(
     '<div id="contact" class="anchor"></div>',
