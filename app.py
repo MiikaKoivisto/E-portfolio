@@ -608,7 +608,7 @@ with left:
 """, unsafe_allow_html=True)
 
 with right:
-    st.image("assets/profile.jpeg", width=280)
+    st.image("asset/profile.jpeg", width=280)
 
 st.write("")
 
@@ -769,7 +769,7 @@ st.markdown("""
 <a href="https://azure-ai-rag-project-dfmv5waazkbkrkca3dw54f.streamlit.app/"
    target="_blank"
    rel="noopener noreferrer">
-   Try Assistant
+   Try assistant
 </a>
 </div>
 
