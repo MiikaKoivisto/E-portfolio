@@ -841,7 +841,7 @@ with st.expander("See Streamlit UI"):
 
 with st.expander("See RAG Debug View"):
     st.image(
-        "assets/StreamlitUI1.png",
+        "assets/RAG1.png",
         caption="Retrieved chunks and RAG debug information"
     )
 
