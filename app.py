@@ -1,6 +1,7 @@
 import streamlit as st
 import base64
 from pathlib import Path
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Miika Koivisto | E-Portfolio",
@@ -608,7 +609,7 @@ with left:
 """, unsafe_allow_html=True)
 
 with right:
-    st.image("assets/profile.jpeg", width=280)
+    st.image("assets/Profile.jpeg", width=280)
 
 st.write("")
 
@@ -976,21 +977,98 @@ with col3:
 # CONTACT
 # -------------------------
 
+# -------------------------
+# CONTACT
+# -------------------------
+
 st.markdown(
     '<div id="contact" class="anchor"></div>',
     unsafe_allow_html=True
 )
 
-st.markdown("""<div class="contact-cta">
-<h2>Contact Me</h2>
-<div class="contact-meta" style="flex-direction: column;">
-<div class="contact-copy-row">
-<span class="contact-copy-value">📧 Miikak123@gmail.com</span>
-<button class="contact-copy-btn" onclick="navigator.clipboard.writeText('Miikak123@gmail.com'); this.innerText='Copied!'; setTimeout(() => this.innerText='Copy', 1200);">Copy</button>
-</div>
-<div class="contact-copy-row">
-<span class="contact-copy-value">📞 +358 505731282</span>
-<button class="contact-copy-btn" onclick="navigator.clipboard.writeText('+358505731282'); this.innerText='Copied!'; setTimeout(() => this.innerText='Copy', 1200);">Copy</button>
-</div>
-</div>
-</div>""", unsafe_allow_html=True)
+components.html(
+    """
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #f0f2f6;
+        }
+
+        .contact-card {
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            background: #161b22;
+        }
+
+        .contact-card h2 {
+            margin: 0 0 1.1rem 0;
+            font-size: 2rem;
+        }
+
+        .contact-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.75rem 0.9rem;
+            margin-top: 0.7rem;
+            border: 1px solid #30363d;
+            border-radius: 9px;
+            background: #0e1117;
+        }
+
+        .contact-value {
+            user-select: text;
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            padding: 0.38rem 0.7rem;
+            border: 1px solid #30363d;
+            border-radius: 7px;
+            background: #161b22;
+            color: #f0f2f6;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            border-color: rgba(120, 180, 255, 0.8);
+        }
+    </style>
+
+    <div class="contact-card">
+        <h2>Contact Me</h2>
+
+        <div class="contact-row">
+            <span class="contact-value">📧 Miikak123@gmail.com</span>
+            <button class="copy-btn"
+                onclick="copyValue('Miikak123@gmail.com', this)">
+                Copy
+            </button>
+        </div>
+
+        <div class="contact-row">
+            <span class="contact-value">📞 +358 505731282</span>
+            <button class="copy-btn"
+                onclick="copyValue('+358505731282', this)">
+                Copy
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function copyValue(value, button) {
+            navigator.clipboard.writeText(value).then(() => {
+                const original = button.innerText;
+                button.innerText = "Copied!";
+                setTimeout(() => {
+                    button.innerText = original;
+                }, 1200);
+            });
+        }
+    </script>
+    """,
+    height=245,
+)
