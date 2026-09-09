@@ -609,7 +609,7 @@ with left:
 """, unsafe_allow_html=True)
 
 with right:
-    st.image("assets/Profile.jpeg", width=280)
+    st.image("assets/profile.jpeg", width=280)
 
 st.write("")
 
