@@ -760,8 +760,19 @@ st.markdown("""
 <li>Streamlit user interface</li>
 </ul>
 
-<a href="https://github.com/MiikaKoivisto/Azure-AI-RAG-Project" target="_blank" rel="noopener noreferrer">View Project on GitHub</a>
+<a href="https://github.com/MiikaKoivisto/Azure-AI-RAG-Project"
+   target="_blank"
+   rel="noopener noreferrer">
+   View Project on GitHub
+</a>
+<br>
+<a href="https://azure-ai-rag-project-dfmv5waazkbkrkca3dw54f.streamlit.app/"
+   target="_blank"
+   rel="noopener noreferrer">
+   Try Assistant
+</a>
 </div>
+
 """, unsafe_allow_html=True)
 
 st.write("")
