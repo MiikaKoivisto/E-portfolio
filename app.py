@@ -808,7 +808,7 @@ LANG = {
         ],
         "view_project": "View Project on GitHub",
         "open_live_project": "Try AI Assistant",
-        "demo_access": "Demo access",
+        "demo_access": "Demo access code",
         "demo_passcode": "Passcode",
         "demo_not_configured": "Live demo URL has not been configured yet.",
         "how_it_works": "How the Work Application Assistant Works",
