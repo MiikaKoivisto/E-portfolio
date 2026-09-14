@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import base64
 from pathlib import Path
-import textwrap
 import streamlit.components.v1 as components
 
 st.set_page_config(
@@ -1040,37 +1039,29 @@ st.markdown(f'<div class="section-title">{tr("featured_project")}</div>', unsafe
 
 project_items_html = "".join(f"<li>{item}</li>" for item in tr("project_items"))
 
-live_button = (
-    f'<a class="project-btn" href="{WORK_APPLICATION_URL}" target="_blank" rel="noopener noreferrer">'
-    f'{tr("open_live_project")}</a>'
-    if WORK_APPLICATION_URL
-    else f'<span class="project-btn project-btn-disabled">{tr("open_live_project")}</span>'
-)
+if WORK_APPLICATION_URL:
+    live_button = f'<a class="project-btn" href="{WORK_APPLICATION_URL}" target="_blank" rel="noopener noreferrer">{tr("open_live_project")}</a>'
+else:
+    live_button = f'<span class="project-btn project-btn-disabled">{tr("open_live_project")}</span>'
 
 demo_access = ""
 if WORK_APPLICATION_PASSCODE:
-    demo_access = f"""
-    <div class="project-demo-access">
-        <span class="project-demo-label">{tr("demo_access")}</span>
-        <code class="project-demo-code">{WORK_APPLICATION_PASSCODE}</code>
-    </div>
-    """
+    demo_access = f'<div class="project-demo-access"><span class="project-demo-label">{tr("demo_access")}</span><code class="project-demo-code">{WORK_APPLICATION_PASSCODE}</code></div>'
 
-project_html = textwrap.dedent(f"""
-<div class="content-card project-feature-card">
-<h3>AI Work Application Assistant</h3>
-<p>{tr("project_intro")}</p>
-<p><strong>{tr("what_built")}</strong></p>
-<ul>{project_items_html}</ul>
-<div class="project-actions">
-<a class="project-btn" href="https://github.com/MiikaKoivisto/Work-Application-Assistant" target="_blank" rel="noopener noreferrer">{tr("view_project")}</a>
-<div class="project-assistant-row">
-{live_button}
-{demo_access}
-</div>
-</div>
-</div>
-""").strip()
+# Keep this HTML on one physical line. Streamlit Markdown can interpret
+# indented multiline HTML as a code block.
+project_html = (
+    f'<div class="content-card project-feature-card">'
+    f'<h3>AI Work Application Assistant</h3>'
+    f'<p>{tr("project_intro")}</p>'
+    f'<p><strong>{tr("what_built")}</strong></p>'
+    f'<ul>{project_items_html}</ul>'
+    f'<div class="project-actions">'
+    f'<a class="project-btn" href="https://github.com/MiikaKoivisto/Work-Application-Assistant" target="_blank" rel="noopener noreferrer">{tr("view_project")}</a>'
+    f'<div class="project-assistant-row">{live_button}{demo_access}</div>'
+    f'</div>'
+    f'</div>'
+)
 
 st.markdown(project_html, unsafe_allow_html=True)
 
