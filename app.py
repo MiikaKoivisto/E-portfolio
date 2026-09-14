@@ -795,7 +795,7 @@ with button3:
         with english_cv.open("rb") as pdf_file:
             st.download_button(
                 label=tr("cv_en"),
-                data=pdf_file,
+                data=pdf_file.read(),
                 file_name=english_cv.name,
                 mime="application/pdf",
                 use_container_width=True,
@@ -805,12 +805,13 @@ with button3:
 
 with button4:
     finnish_cv = Path("assets/Koivisto_Miika_Resume_FI.pdf")
+
     if finnish_cv.exists():
         with finnish_cv.open("rb") as pdf_file:
             st.download_button(
                 label=tr("cv_fi"),
-                data=pdf_file,
-                file_name=finnish_cv.name,
+                data=pdf_file.read(),
+                file_name="Koivisto_Miika_Resume_FI.pdf",
                 mime="application/pdf",
                 use_container_width=True,
             )
