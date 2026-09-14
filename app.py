@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import base64
 from pathlib import Path
+import textwrap
 import streamlit.components.v1 as components
 
 st.set_page_config(
@@ -1055,29 +1056,21 @@ if WORK_APPLICATION_PASSCODE:
     </div>
     """
 
-project_html = f"""
+project_html = textwrap.dedent(f"""
 <div class="content-card project-feature-card">
-    <h3>AI Work Application Assistant</h3>
-    <p>{tr("project_intro")}</p>
-
-    <p><strong>{tr("what_built")}</strong></p>
-    <ul>{project_items_html}</ul>
-
-    <div class="project-actions">
-        <a class="project-btn"
-           href="https://github.com/MiikaKoivisto/Work-Application-Assistant"
-           target="_blank"
-           rel="noopener noreferrer">
-            {tr("view_project")}
-        </a>
-
-        <div class="project-assistant-row">
-            {live_button}
-            {demo_access}
-        </div>
-    </div>
+<h3>AI Work Application Assistant</h3>
+<p>{tr("project_intro")}</p>
+<p><strong>{tr("what_built")}</strong></p>
+<ul>{project_items_html}</ul>
+<div class="project-actions">
+<a class="project-btn" href="https://github.com/MiikaKoivisto/Work-Application-Assistant" target="_blank" rel="noopener noreferrer">{tr("view_project")}</a>
+<div class="project-assistant-row">
+{live_button}
+{demo_access}
 </div>
-"""
+</div>
+</div>
+""").strip()
 
 st.markdown(project_html, unsafe_allow_html=True)
 
