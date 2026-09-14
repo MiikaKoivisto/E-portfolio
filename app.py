@@ -442,6 +442,83 @@ li {{
     border-color: rgba(120, 180, 255, 0.75);
 }}
 
+
+.project-action-row {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}}
+
+.project-action-buttons {{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+}}
+
+.project-disabled-button {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.6rem;
+    padding: 0.62rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid {border};
+    background: {bg};
+    color: {muted} !important;
+    font-weight: 600;
+    opacity: 0.65;
+}}
+
+.demo-access-inline {{
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+}}
+
+.demo-access-label {{
+    color: {muted} !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+}}
+
+.demo-access-inline code {{
+    padding: 0.34rem 0.5rem;
+    border-radius: 7px;
+    border: 1px solid {border};
+    background: {bg};
+    color: {text} !important;
+    font-size: 0.88rem;
+}}
+
+.demo-copy-btn {{
+    padding: 0.34rem 0.58rem;
+    border-radius: 7px;
+    border: 1px solid {border};
+    background: {bg};
+    color: {text};
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+}}
+
+.demo-copy-btn:hover {{
+    border-color: rgba(120, 180, 255, 0.75);
+}}
+
+@media (max-width: 700px) {{
+    .project-action-row {{
+        align-items: flex-start;
+        flex-direction: column;
+    }}
+}}
+
 /* -------------------------
    PROJECT CARD
 ------------------------- */
@@ -621,7 +698,7 @@ LANG = {
             "Recruiter-facing Streamlit interface with transparent RAG diagnostics",
         ],
         "view_project": "View Project on GitHub",
-        "open_live_project": "Open Live AI Assistant",
+        "open_live_project": "Try AI Assistant",
         "demo_access": "Demo access",
         "demo_passcode": "Passcode",
         "demo_not_configured": "Live demo URL has not been configured yet.",
@@ -693,7 +770,7 @@ LANG = {
             "Rekrytoijille suunnattu Streamlit-käyttöliittymä läpinäkyvillä RAG-diagnostiikoilla",
         ],
         "view_project": "Näytä projekti GitHubissa",
-        "open_live_project": "Avaa AI Assistant",
+        "open_live_project": "Kokeile AI Assistantia",
         "demo_access": "Demon käyttö",
         "demo_passcode": "Pääsykoodi",
         "demo_not_configured": "Live-demon URL-osoitetta ei ole vielä määritetty.",
@@ -851,42 +928,46 @@ for column, (title, skills) in zip(skill_columns, skill_cards):
 st.markdown('<div id="projects" class="anchor"></div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-title">{tr("featured_project")}</div>', unsafe_allow_html=True)
 
-project_items = "".join(f"<li>{item}</li>" for item in tr("project_items"))
-project_html = f"""<div class="content-card">
-<h3>AI Work Application Assistant</h3>
-<p>{tr("project_intro")}</p>
-<p><strong>{tr("what_built")}</strong></p>
-<ul>{project_items}</ul>
-<a href="https://github.com/MiikaKoivisto/Work-Application-Assistant"
-   target="_blank" rel="noopener noreferrer">{tr("view_project")}</a>
-</div>"""
-st.markdown(project_html, unsafe_allow_html=True)
+project_items_md = "\n".join(f"- {item}" for item in tr("project_items"))
 
-demo_col1, demo_col2 = st.columns([1, 1])
+# Keep all project actions inside the same bordered project container.
+with st.container(border=True):
+    st.markdown("### AI Work Application Assistant")
+    st.write(tr("project_intro"))
 
-with demo_col1:
-    if WORK_APPLICATION_URL:
-        st.link_button(
-            tr("open_live_project"),
-            WORK_APPLICATION_URL,
-            use_container_width=True,
-        )
-    else:
-        st.button(
-            tr("open_live_project"),
-            disabled=True,
-            use_container_width=True,
-        )
-        st.caption(tr("demo_not_configured"))
+    st.markdown(f"**{tr('what_built')}**")
+    st.markdown(project_items_md)
 
-with demo_col2:
-    if WORK_APPLICATION_PASSCODE:
-        st.markdown(
-            f"**{tr('demo_access')}**  \n"
-            f"{tr('demo_passcode')}: `{WORK_APPLICATION_PASSCODE}`"
-        )
+    # Primary project link.
+    st.link_button(
+        tr("view_project"),
+        "https://github.com/MiikaKoivisto/Work-Application-Assistant",
+        use_container_width=False,
+    )
 
+    # Live assistant directly below GitHub, with copyable demo access beside it.
+    demo_button_col, demo_access_col = st.columns([1, 1.25], vertical_alignment="center")
 
+    with demo_button_col:
+        if WORK_APPLICATION_URL:
+            st.link_button(
+                tr("open_live_project"),
+                WORK_APPLICATION_URL,
+                use_container_width=True,
+            )
+        else:
+            st.button(
+                tr("open_live_project"),
+                disabled=True,
+                use_container_width=True,
+            )
+            st.caption(tr("demo_not_configured"))
+
+    with demo_access_col:
+        if WORK_APPLICATION_PASSCODE:
+            st.markdown(f"**{tr('demo_access')}**")
+            # st.code includes Streamlit's built-in copy-to-clipboard control.
+            st.code(WORK_APPLICATION_PASSCODE, language=None)
 st.write("")
 st.markdown(f'<div class="section-title">{tr("how_it_works")}</div>', unsafe_allow_html=True)
 
