@@ -443,6 +443,115 @@ li {{
 }}
 
 
+/* -------------------------
+   FEATURED PROJECT ACTIONS
+------------------------- */
+
+.project-feature-card .project-actions {{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+}}
+
+.project-feature-card .project-assistant-row {{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}}
+
+.project-feature-card .project-btn {{
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 220px;
+    height: 42px;
+    margin: 0 !important;
+    padding: 0 0.9rem !important;
+    border-radius: 8px;
+    border: 1px solid {border};
+    background: {bg};
+    color: {text} !important;
+    text-decoration: none !important;
+    font-weight: 600;
+    line-height: 1;
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}}
+
+.project-feature-card .project-btn:hover {{
+    transform: translateY(-2px);
+    border-color: rgba(120, 180, 255, 0.75);
+}}
+
+.project-feature-card .project-btn-disabled {{
+    color: {muted} !important;
+    opacity: 0.65;
+    cursor: default;
+}}
+
+.project-feature-card .project-btn-disabled:hover {{
+    transform: none;
+    border-color: {border};
+}}
+
+.project-feature-card .project-demo-access {{
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 42px;
+    border: 1px solid {border};
+    border-radius: 8px;
+    background: {bg};
+    overflow: hidden;
+}}
+
+.project-feature-card .project-demo-label {{
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.75rem;
+    border-right: 1px solid {border};
+    color: {muted} !important;
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+}}
+
+.project-feature-card .project-demo-code {{
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    min-width: 88px;
+    padding: 0 0.75rem;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: {text} !important;
+    font-size: 0.88rem;
+    user-select: all;
+    -webkit-user-select: all;
+}}
+
+@media (max-width: 700px) {{
+    .project-feature-card .project-assistant-row {{
+        align-items: flex-start;
+        flex-direction: column;
+    }}
+
+    .project-feature-card .project-btn,
+    .project-feature-card .project-demo-access {{
+        width: 100%;
+    }}
+
+    .project-feature-card .project-demo-code {{
+        flex: 1;
+    }}
+}}
+
+
 .project-action-row {{
     display: flex;
     align-items: center;
@@ -928,46 +1037,52 @@ for column, (title, skills) in zip(skill_columns, skill_cards):
 st.markdown('<div id="projects" class="anchor"></div>', unsafe_allow_html=True)
 st.markdown(f'<div class="section-title">{tr("featured_project")}</div>', unsafe_allow_html=True)
 
-project_items_md = "\n".join(f"- {item}" for item in tr("project_items"))
+project_items_html = "".join(f"<li>{item}</li>" for item in tr("project_items"))
 
-# Keep all project actions inside the same bordered project container.
-with st.container(border=True):
-    st.markdown("### AI Work Application Assistant")
-    st.write(tr("project_intro"))
+live_button = (
+    f'<a class="project-btn" href="{WORK_APPLICATION_URL}" target="_blank" rel="noopener noreferrer">'
+    f'{tr("open_live_project")}</a>'
+    if WORK_APPLICATION_URL
+    else f'<span class="project-btn project-btn-disabled">{tr("open_live_project")}</span>'
+)
 
-    st.markdown(f"**{tr('what_built')}**")
-    st.markdown(project_items_md)
+demo_access = ""
+if WORK_APPLICATION_PASSCODE:
+    demo_access = f"""
+    <div class="project-demo-access">
+        <span class="project-demo-label">{tr("demo_access")}</span>
+        <code class="project-demo-code">{WORK_APPLICATION_PASSCODE}</code>
+    </div>
+    """
 
-    # Primary project link.
-    st.link_button(
-        tr("view_project"),
-        "https://github.com/MiikaKoivisto/Work-Application-Assistant",
-        use_container_width=False,
-    )
+project_html = f"""
+<div class="content-card project-feature-card">
+    <h3>AI Work Application Assistant</h3>
+    <p>{tr("project_intro")}</p>
 
-    # Live assistant directly below GitHub, with copyable demo access beside it.
-    demo_button_col, demo_access_col = st.columns([1, 1.25], vertical_alignment="center")
+    <p><strong>{tr("what_built")}</strong></p>
+    <ul>{project_items_html}</ul>
 
-    with demo_button_col:
-        if WORK_APPLICATION_URL:
-            st.link_button(
-                tr("open_live_project"),
-                WORK_APPLICATION_URL,
-                use_container_width=True,
-            )
-        else:
-            st.button(
-                tr("open_live_project"),
-                disabled=True,
-                use_container_width=True,
-            )
-            st.caption(tr("demo_not_configured"))
+    <div class="project-actions">
+        <a class="project-btn"
+           href="https://github.com/MiikaKoivisto/Work-Application-Assistant"
+           target="_blank"
+           rel="noopener noreferrer">
+            {tr("view_project")}
+        </a>
 
-    with demo_access_col:
-        if WORK_APPLICATION_PASSCODE:
-            st.markdown(f"**{tr('demo_access')}**")
-            # st.code includes Streamlit's built-in copy-to-clipboard control.
-            st.code(WORK_APPLICATION_PASSCODE, language=None)
+        <div class="project-assistant-row">
+            {live_button}
+            {demo_access}
+        </div>
+    </div>
+</div>
+"""
+
+st.markdown(project_html, unsafe_allow_html=True)
+
+if not WORK_APPLICATION_URL:
+    st.caption(tr("demo_not_configured"))
 st.write("")
 st.markdown(f'<div class="section-title">{tr("how_it_works")}</div>', unsafe_allow_html=True)
 
